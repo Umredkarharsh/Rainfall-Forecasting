@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-st.title("Regression Model Accuacry with SHAP Interpretability")
+st.title("Ridge Regression with SHAP Interpretability")
 st.write("Upload a dataset to visualize predictions and SHAP-based feature importance.")
 
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
@@ -102,6 +102,12 @@ if uploaded_file is not None:
         fig5, ax5 = plt.subplots(figsize=(10, 6))
         shap.summary_plot(shap_values, X_test, show=False)
         st.pyplot(fig5)
+
+        #SHAP Force Plot (First Prediction)
+        st.write("### SHAP Force Plot (First Prediction)")
+        shap.initjs()
+        force_plot_html = shap.force_plot(explainer.expected_value, shap_values[0], X_test.iloc[0], matplotlib=True)
+        st.pyplot(force_plot_html)
 
 
         #  SHAP Decision Plot
